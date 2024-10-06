@@ -1,4 +1,5 @@
 import React from "react";
+import ShowAddFormButton from "./ShowAddFormButton";
 
 const colors = ["#FF8C42", "#B39CD0", "#A3E635", "#76C7C0", "#F28B82", "#FBEA85", "#BFBFBF"];
 
@@ -10,6 +11,7 @@ class NoteInput extends React.Component {
       title: "",
       body: "",
       color: colors[Math.floor(Math.random() * colors.length)],
+      isShowForm: false,
     };
 
     // Mengikat this pada event handler
@@ -17,6 +19,7 @@ class NoteInput extends React.Component {
     this.onBodyChangeHandler = this.onBodyChangeHandler.bind(this);
     this.onSelectedColorHandler = this.onSelectedColorHandler.bind(this);
     this.onSubmitFormHandler = this.onSubmitFormHandler.bind(this);
+    this.onShowAddFormHandler = this.onShowAddFormHandler.bind(this);
   }
 
   onTitleChangeHandler(event) {
@@ -51,11 +54,18 @@ class NoteInput extends React.Component {
     this.setState({
       title: "",
       body: "",
+      isShowForm: false,
     });
   }
 
+  onShowAddFormHandler() {
+    this.setState({ isShowForm: true });
+  }
+
   render() {
-    return (
+    return !this.state.isShowForm ? (
+      <ShowAddFormButton showForm={this.onShowAddFormHandler} />
+    ) : (
       <div className="note-input_container" id="noteInput">
         <h2 className="note-input_title">Tambah Catatan</h2>
         <form className="note-input" onSubmit={this.onSubmitFormHandler}>

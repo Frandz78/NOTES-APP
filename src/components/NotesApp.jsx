@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Data Notes
 import { getInitialData } from "../utils/index";
 // Component
 import NotesList from "./NotesList";
 import NoteInput from "./NoteInput";
 import ArchivedList from "./ArchivedList";
-import Navbar from "./Navbar";
 import Modal from "./Modal";
 import EditForm from "./EditForm";
 import DetailNotes from "./DetailNotes";
 import Footer from "./Footer";
 import FilteredListAction from "./FilteredListAction";
+import Navbar from "./Navbar";
 
 export default class NotesApp extends React.Component {
   constructor(props) {
@@ -314,53 +314,55 @@ export default class NotesApp extends React.Component {
           <Navbar />
         </header>
 
-        <div className="note-app_body">
-          {/* Input Form */}
-          <NoteInput addNote={this.onAddNoteHandler} />
+        <main>
+          <div className="note-app_body">
+            {/* Input Form */}
+            <NoteInput addNote={this.onAddNoteHandler} />
 
-          {/* Filtered Notes (All, Active notes, Archived notes, Search input) */}
-          <FilteredListAction onFilteredAll={this.onFilteredAllNotesHandler} onFilteredActive={this.onFilteredActiveNotesHandler} onFilteredArchive={this.onFilteredArchiveNotesHandler} onSearch={this.onSearchChangeHandler} />
+            {/* Filtered Notes (All, Active notes, Archived notes, Search input) */}
+            <FilteredListAction onFilteredAll={this.onFilteredAllNotesHandler} onFilteredActive={this.onFilteredActiveNotesHandler} onFilteredArchive={this.onFilteredArchiveNotesHandler} onSearch={this.onSearchChangeHandler} />
 
-          {/* Edit Form */}
-          {this.state.editingNotes && (
-            <Modal onClose={this.onEditingCloseHandler}>
-              <EditForm editNotes={this.state.editingNotes} saveNote={this.onSaveEditingNoteHandler} />
-            </Modal>
-          )}
+            {/* Edit Form */}
+            {this.state.editingNotes && (
+              <Modal onClose={this.onEditingCloseHandler}>
+                <EditForm editNotes={this.state.editingNotes} saveNote={this.onSaveEditingNoteHandler} />
+              </Modal>
+            )}
 
-          {/* List Notes Start */}
-          {this.state.isShowActiveNotes && (
-            <div className="notes-list_container">
-              <h2>Daftar Catatan</h2>
-              {searchListActiveItems.length > 0 ? (
-                <NotesList notes={searchListActiveItems} onDelete={this.onDeleteHandler} onArchived={this.onArchivedHandler} onEdit={this.onEditHandler} onDetail={this.onDetailHandler} />
-              ) : (
-                <div className="notes-list_empty-message">
-                  <p>Tidak ada catatan</p>
-                </div>
-              )}
-            </div>
-          )}
-          {/* List Notes End */}
+            {/* List Notes Start */}
+            {this.state.isShowActiveNotes && (
+              <div className="notes-list_container">
+                <h2>Daftar Catatan</h2>
+                {searchListActiveItems.length > 0 ? (
+                  <NotesList notes={searchListActiveItems} onDelete={this.onDeleteHandler} onArchived={this.onArchivedHandler} onEdit={this.onEditHandler} onDetail={this.onDetailHandler} />
+                ) : (
+                  <div className="notes-list_empty-message">
+                    <p>Tidak ada catatan</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {/* List Notes End */}
 
-          {/* archived Notes Start */}
-          {this.state.isShowArchivedNotes && (
-            <div className="archived-list_container">
-              <h2>Arsip Catatan</h2>
-              {searchListArchivedItems.length > 0 ? (
-                <ArchivedList notes={searchListArchivedItems} onDelete={this.onDeleteHandler} onUndo={this.onUndoHandler} isArchived={activeNotes} onEdit={this.onEditHandler} onDetail={this.onDetailHandler} />
-              ) : (
-                <div className="notes-list_empty-message">
-                  <p>Tidak ada catatan</p>
-                </div>
-              )}
-            </div>
-          )}
-          {/* archived Notes End */}
-        </div>
+            {/* archived Notes Start */}
+            {this.state.isShowArchivedNotes && (
+              <div className="archived-list_container">
+                <h2>Arsip Catatan</h2>
+                {searchListArchivedItems.length > 0 ? (
+                  <ArchivedList notes={searchListArchivedItems} onDelete={this.onDeleteHandler} onUndo={this.onUndoHandler} isArchived={activeNotes} onEdit={this.onEditHandler} onDetail={this.onDetailHandler} />
+                ) : (
+                  <div className="notes-list_empty-message">
+                    <p>Tidak ada catatan</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {/* archived Notes End */}
 
-        {/* Detail Notes */}
-        {this.state.detailNotes && <DetailNotes notes={this.state.detailNotes} onClose={this.onDetailCloseHandler} />}
+            {/* Detail Notes */}
+            {this.state.detailNotes && <DetailNotes notes={this.state.detailNotes} onClose={this.onDetailCloseHandler} />}
+          </div>
+        </main>
 
         {/* Footer */}
         <Footer />

@@ -3,7 +3,7 @@ import React from "react";
 function Navbar() {
   return (
     <nav className="navbar-menu">
-      <h1>Notes App</h1>
+      <h1 className="navbar-menu_title">Notes App</h1>
     </nav>
   );
 }
